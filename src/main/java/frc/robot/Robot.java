@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.Drive;
 
@@ -24,12 +25,16 @@ public class Robot extends TimedRobot {
   private static Drive drive;
   private static XboxController xc = new XboxController(0);
 
+  int smoothing = 0;
+  int pov = -1;
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
   @Override
   public void robotInit() {
+    drive = new Drive(0, 1, 2, 3, 4, 5);
   }
 
   /**
@@ -78,7 +83,38 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    
+    double leftY = -xc.getY(Hand.kRight); /* left-side Y for Xbox360Gamepad */
+    double rightY = -xc.getY(Hand.kLeft); /* right-side Y for Xbox360Gamepad */
+    if (Math.abs(leftY) < 0.10) { leftY = 0; } /* deadband 10% */
+    if (Math.abs(rightY) < 0.10) { rightY = 0; } /* deadband 10% */
+
+    if (xc.getRawButton(1)) {
+      double targetPos = rightY * 4096 * 10.0;
+      drive.run(ControlMode.MotionMagic, targetPos);
+    } 
+    else {
+      drive.run(ControlMode.PercentOutput, leftY);
+    }
+    if (xc.getRawButton(2)) {
+      drive.setPos(0);
+    }
+
+    int savePov = xc.getPOV();
+    if (pov == savePov) {
+    } 
+    else if (pov == 180) {
+      smoothing--;
+      if (smoothing < 0)
+        smoothing = 0;
+      drive.configMotionSCurveStrength(smoothing);
+    } 
+    else if (pov == 0) { 
+      smoothing++;
+      if (smoothing > 8)
+        smoothing = 8;
+      drive.configMotionSCurveStrength(smoothing);
+    }
+    pov = savePov; 
   }
 
   /**
