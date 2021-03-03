@@ -69,6 +69,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    double targetPos = 4096 * 5;
+    drive.run(ControlMode.MotionMagic, targetPos);
   }
 
   /**
@@ -78,24 +80,26 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
   }
 
+
   /**
    * This function is called periodically during operator control.
    */
   @Override
   public void teleopPeriodic() {
-    double leftY = -xc.getY(Hand.kRight); /* left-side Y for Xbox360Gamepad */
-    double rightY = -xc.getY(Hand.kLeft); /* right-side Y for Xbox360Gamepad */
+    double rightY = -xc.getY(Hand.kRight); /* left-side Y for Xbox360Gamepad */
+    double leftY = -xc.getY(Hand.kLeft); /* right-side Y for Xbox360Gamepad */
     if (Math.abs(leftY) < 0.10) { leftY = 0; } /* deadband 10% */
     if (Math.abs(rightY) < 0.10) { rightY = 0; } /* deadband 10% */
 
-    if (xc.getRawButton(1)) {
-      double targetPos = rightY * 4096 * 10.0;
+    if (xc.getRawButton(5)) {
+      double targetPos = leftY * 4096;
       drive.run(ControlMode.MotionMagic, targetPos);
+      System.out.println(targetPos);
     } 
     else {
       drive.run(ControlMode.PercentOutput, leftY);
     }
-    if (xc.getRawButton(2)) {
+    if (xc.getRawButton(6)) {
       drive.setPos(0);
     }
 

@@ -35,15 +35,6 @@ public class Drive{
         talon4.setNeutralMode(NeutralMode.Brake);
         talon5.setNeutralMode(NeutralMode.Brake);
 
-        talon2.follow(talon0);
-        talon4.follow(talon0);
-        talon3.follow(talon1);
-        talon5.follow(talon1);
-
-        talon1.setInverted(true);
-        talon3.setInverted(true);
-        talon5.setInverted(true);
-
 		talon0.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, Constants.kTimeoutMs);
 		talon0.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, Constants.kTimeoutMs);
 
@@ -64,6 +55,16 @@ public class Drive{
 
 		/* Zero the sensor once on robot boot up */
 		talon0.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);
+        
+        talon2.follow(talon0);
+        talon4.follow(talon0);
+        talon1.follow(talon0);
+        talon3.follow(talon0);
+        talon5.follow(talon0);
+
+        talon1.setInverted(true);
+        talon3.setInverted(true);
+        talon5.setInverted(true);
     }
 
     public double motorOutput(){
@@ -72,6 +73,7 @@ public class Drive{
 
     public void run(ControlMode mode, double val){
         talon0.set(mode, val);
+        System.out.println(mode);
     }
 
     public void setPos(int val){
