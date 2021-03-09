@@ -69,7 +69,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    double targetPos = 4096 * 5;
+    double targetPos = 4096 * 3;
     drive.run(ControlMode.MotionMagic, targetPos);
   }
 
