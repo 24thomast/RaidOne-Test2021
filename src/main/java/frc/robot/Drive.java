@@ -50,8 +50,8 @@ public class Drive{
 		talon0.config_kD(Constants.kSlotIdx, Constants.kGains.kD, Constants.kTimeoutMs);
 
 		/* Set acceleration and vcruise velocity - see documentation */
-		talon0.configMotionCruiseVelocity(2000, Constants.kTimeoutMs);
-		talon0.configMotionAcceleration(4000, Constants.kTimeoutMs);
+		talon0.configMotionCruiseVelocity(3000, Constants.kTimeoutMs);
+		talon0.configMotionAcceleration(3000, Constants.kTimeoutMs);
 
 		/* Zero the sensor once on robot boot up */
 		talon0.setSelectedSensorPosition(0, Constants.kPIDLoopIdx, Constants.kTimeoutMs);

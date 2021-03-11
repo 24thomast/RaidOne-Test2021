@@ -27,6 +27,6 @@ public class Constants {
 	 * Gains used in Motion Magic, to be adjusted accordingly
      * Gains(kp, ki, kd, kf, izone, peak output);
      */
-    static final Gains kGains = new Gains(5, 0, 8, 0, 1, 0);
+    static final Gains kGains = new Gains(5, 0, 10, 0, 1, 0);
 }
 
